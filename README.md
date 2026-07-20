@@ -114,12 +114,15 @@ Since eye movement generally remains controllable even in individuals with sever
 Figure 2 illustrates the fundamental architecture of a Brain–Computer Interface, while Figures 3 and 4 summarize the signal processing and acquisition stages employed by the proposed system.
 
 <img width="760" height="220" alt="image" src="https://github.com/user-attachments/assets/46fc5ebd-36a8-4ed3-96c2-f5f42215ce38" />
+
 *Fundamental architecture of a Brain–Computer Interface (BCI).*
 
 <img width="975" height="244" alt="image" src="https://github.com/user-attachments/assets/29e9856c-c129-41a8-80fe-29d107be59ef" />
+
 *Signal processing sequence adopted for the proposed system.*
 
 <img width="510" height="248" alt="image" src="https://github.com/user-attachments/assets/602fd857-b1aa-4fe0-95bc-1854e16e5760" />
+
 *Signal acquisition workflow.*
 
 ---
@@ -144,6 +147,7 @@ This distributed design minimizes controller workload, improves maintainability,
 
 
 <img width="758" height="663" alt="image" src="https://github.com/user-attachments/assets/c8366c45-2f71-4bb3-aa52-dd70c86ca1c5" />
+
 *TCP/IP communication architecture between the MATLAB supervisory interface and multiple ESP32-based embedded controllers.*
 
 ---
@@ -170,8 +174,6 @@ The distribution of responsibilities includes:
 | ESP32 – Node 2 | Fan Control |
 | ESP32 – Node 3 | Security Lock System |
 | ESP32 – Node 4 | Intelligent Wheelchair |
-| ESP32 – Node 5 | Emergency (SOS) Module |
-| ESP32 – Node 6 | Auxiliary Automation Functions |
 
 This distributed approach offers several engineering advantages.
 
@@ -304,3 +306,152 @@ Several architectural decisions were adopted during the hardware development to 
 - Reusable communication framework for integrating future assistive modules.
 - Hardware abstraction through MATLAB-based supervisory control.
 - Migration from breadboard validation toward a consolidated hardware schematic suitable for future PCB realization.
+
+---
+
+## Software Organization
+
+The repository is organized into functional modules rather than hardware-specific implementations. This structure improves code readability and allows individual components to be maintained or extended without affecting the remaining system.
+
+```text
+Project/
+│
+├── MATLAB/
+│   ├── GUI/
+│   ├── SignalProcessing/
+│   ├── Communication/
+│   ├── Authentication/
+│   ├── HomeAutomation/
+│   ├── Wheelchair/
+│   ├── Utilities/
+│   └── Resources/
+│
+├── ESP32/
+│   ├── SecurityLock/
+│   ├── Lighting/
+│   ├── Fan/
+│   ├── Wheelchair/
+│   ├── SOS/
+│   └── Auxiliary/
+│
+├── Hardware/
+│   ├── Schematic/
+│   └── Documentation/
+│
+├── Results/
+│
+└── README.md
+```
+
+---
+
+## Software Modules
+
+The software implementation is organized into several functional modules, each responsible for a distinct aspect of system operation.
+
+| Module | Responsibility |
+|---------|----------------|
+| MATLAB GUI | Supervisory interface for user interaction and system monitoring |
+| Signal Processing | Processing and interpretation of EOG-based user commands |
+| Authentication | Password verification and security lock management |
+| Communication | TCP/IP communication between MATLAB and ESP32 nodes |
+| Home Automation | Coordination of lighting, fan, emergency and auxiliary functions |
+| Wheelchair Control | Processing of navigation commands and mobility control |
+
+This modular organization allows additional assistive functionalities to be incorporated with minimal changes to the existing software architecture.
+
+---
+
+
+# MATLAB Supervisory Interface
+
+The MATLAB application serves as the central supervisory interface of the proposed assistive platform. Developed using MATLAB App Designer, it provides a unified environment for system monitoring, user interaction, and wireless coordination of all embedded subsystems.
+
+Instead of requiring users to interact individually with each hardware module, the application consolidates all assistive functionalities into a single graphical interface. The GUI performs command validation, supervises communication with distributed ESP32 controllers, and provides a centralized platform for controlling the complete assistive ecosystem.
+
+The modular architecture of the application also allows new assistive modules to be incorporated with minimal modifications to the existing software framework.
+
+---
+
+## Interface Organization
+
+The application is organized into multiple functional sections, each dedicated to a specific stage of user interaction and device control.
+
+| Interface | Function |
+|-----------|----------|
+| Authentication Interface | User verification prior to system access |
+| Home Automation Interface | Control of lighting, fan, emergency assistance and auxiliary devices |
+| Security Control Interface | Smart door access and authentication management |
+
+This hierarchical organization reduces interface complexity while allowing individual assistive functions to remain logically separated.
+
+---
+
+## Authentication Interface
+
+The authentication interface serves as the entry point to the application. Before any assistive subsystem becomes accessible, user verification is performed through a password-based authentication mechanism.
+
+This additional security layer prevents unauthorized operation of assistive devices while ensuring controlled access to the smart living environment.
+
+Once authentication is completed successfully, the user is granted access to the remaining modules within the supervisory interface.
+
+<img width="467" height="412" alt="image" src="https://github.com/user-attachments/assets/51df9e57-0ac3-40a9-8227-7d4aedb6b4d8" />
+
+
+*MATLAB login/authentication interface.*
+
+---
+
+## Home Automation Interface
+
+The home automation interface provides centralized supervision of the environmental control subsystem. Through this interface, users can interact with multiple assistive devices without switching between independent applications.
+
+The interface enables operation of:
+
+- Lighting system
+- Fan control
+- Emergency assistance (SOS)
+- Auxiliary automation functions
+
+Each user action is interpreted by the supervisory application and transmitted through the wireless communication framework to the corresponding embedded controller responsible for executing the requested operation.
+
+The modular implementation allows additional assistive devices to be incorporated into the interface without requiring significant architectural changes.
+
+<img width="679" height="961" alt="image" src="https://github.com/user-attachments/assets/6fe19de9-5ec2-422e-ae68-45f9801d4a38" />
+
+<img width="975" height="796" alt="image" src="https://github.com/user-attachments/assets/7b99183a-e4c0-4cee-91eb-f69e5fac0338" />
+
+<img width="602" height="414" alt="image" src="https://github.com/user-attachments/assets/453d8ac2-4919-4739-8781-075a5653dd1b" />
+
+<img width="489" height="474" alt="image" src="https://github.com/user-attachments/assets/464b7b43-1fdf-4389-92f8-503bf91105ee" />
+
+
+*MATLAB home automation interface.*
+
+---
+
+# Hardware Gallery
+
+The following photographs document the development of the proposed Neuro-Adaptive Smart Living Platform, from initial prototyping to the integrated assistive system. The gallery highlights the major hardware components, embedded implementation, and final prototype used during experimental validation.
+
+---
+
+## Prototype Development
+
+| Hardware | Description |
+|----------|-------------|
+| Breadboard Prototype | Initial hardware implementation used for subsystem validation and communication testing. |
+| Integrated Prototype | Complete assembly of the smart living platform incorporating biomedical sensing, embedded controllers, and assistive modules. |
+
+<img width="501" height="522" alt="image" src="https://github.com/user-attachments/assets/6264766b-703a-4616-8505-08369dae07a8" />
+
+<img width="541" height="516" alt="image" src="https://github.com/user-attachments/assets/37ae3d40-e977-4689-b8a4-b73c4068d17f" />
+
+<img width="527" height="499" alt="image" src="https://github.com/user-attachments/assets/a1e97dc6-bb88-4edd-80f4-f28d754211fc" />
+
+<img width="800" height="1067" alt="image" src="https://github.com/user-attachments/assets/b17b8439-2c17-45e7-8126-551e334c3b8c" />
+
+
+
+
+---
